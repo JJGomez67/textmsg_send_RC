@@ -96,11 +96,7 @@ def createsheet():
    
     
     service = build('sheets', 'v4')
-
-    # Check if the spreadsheet already exists
     spreadsheet_title = 'List of Messages'
-    spreadsheet_exists = False
-    
    
     # Create a new spreadsheet
     spreadsheet = service.spreadsheets().create(body={

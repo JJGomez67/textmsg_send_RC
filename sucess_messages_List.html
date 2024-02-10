@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Success</title>
+</head>
+<body>
+    <h1>{{ success_message }}</h1>
+    <form action="/submit_send_msg" >
+        <h2>Messages List:</h2>
+        <ul>
+            {% for message_template in message_templates %}
+                <li>{{ message_template }}</li>
+            {% endfor %}
+        </ul>
+        <input type="submit" value="Send a MSN">
+        <input type="submit" value="Send an Email">
+    </form>
+</body>
+</html>

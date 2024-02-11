@@ -75,12 +75,13 @@ def submit_sms():
 @app.post("/reply")
 def reply():
     reply = request.json
+    #print(reply)
     textId = reply.get("textId")
 
     if textId not in conversation:
         conversation[textId] = []  # Initialize an empty list for the TextId
 
-    conversation[textId].append({"from": reply.get("fromNumber"), "text": reply.get("fromNumber")})
+    conversation[textId].append({"from": reply.get("fromNumber"), "text": reply.get("text")})
 
     with open("conversation.json", "w") as file:
         json.dump(conversation, file, indent=4)
@@ -96,7 +97,11 @@ def createsheet():
    
     
     service = build('sheets', 'v4')
+
+    # Check if the spreadsheet already exists
     spreadsheet_title = 'List of Messages'
+    spreadsheet_exists = False
+    
    
     # Create a new spreadsheet
     spreadsheet = service.spreadsheets().create(body={
@@ -113,7 +118,7 @@ def createsheet():
     # Extract values from the conversation dictionary
     values = [header_row]  # Start with the header row
     values.extend([[TextId, msg["from"], msg["text"]] for TextId, msgs in conversation_data.items() for msg in msgs])
-    print("Values extracted from conversation data:", values)  # Debug print
+    #print("Values extracted from conversation data:", values)  # Debug print
     
     # The range where to append the data
     range_ = 'Hoja 1!A1:C'  
@@ -129,6 +134,7 @@ def createsheet():
     response = request.execute()
 
     service.close()
+    return "OK"
 
 
 if __name__ == '__main__':
